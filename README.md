@@ -1,4 +1,4 @@
-# willberries - учебный проект в Glo-Academy
+# willberries 
 ## В проекте использовались языки:
   - HTML
   - CSS
