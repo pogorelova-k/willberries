@@ -52,7 +52,18 @@ button {
     line-height: 20px;
     display: flex;
     align-items: center;
+    transition: All 0.5s ease;
+
 }
+
+.button:active, .button:focus, .button:visited {
+    outline: none;
+    border: none;
+}
+.button:active {
+    background: #939699;
+}
+
 
 .button-icon, .button-price {
     margin-right: 10px;
