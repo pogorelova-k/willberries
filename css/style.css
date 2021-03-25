@@ -377,19 +377,26 @@ button {
 }
 
 .modal-header{
+    /* display: flex; */
+    justify-content: space-between;
+}
+
+.modal-header__title {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .modal-title {
     margin-top: 0;
-    margin-bottom: 15px;
+    margin-bottom: 0px;
+    
 }
 
 .button.clear-cart {
     background: #ff4545;
-    padding: 0px 20px;
-    margin-bottom: 5px;
+    padding: 8px 20px;
+    margin-bottom: 15px;
     margin-top: 10px;
     margin-right: 10px;
 }
