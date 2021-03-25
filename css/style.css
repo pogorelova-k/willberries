@@ -386,6 +386,14 @@ button {
     margin-bottom: 15px;
 }
 
+.button.delete-goods {
+    background: #ff4545;
+    padding: 0px 20px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
 .modal-close {
     position: absolute;
     background-color: transparent;
@@ -428,6 +436,7 @@ button {
     display: block;
     margin-left: auto;
     height: 40px;
+    margin-right: 15px;
 }
 
 
