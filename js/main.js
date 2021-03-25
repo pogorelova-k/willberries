@@ -85,9 +85,6 @@ const cart = {
     }, 0);
 
     cardTableTotal.textContent = totalPrice + "$";
-
-    // выводим общее количество товаров на кнопке с корзиной при открытом модальном окне
-    cartCount.textContent = totalCount;
   },
 
   //* метод получает товар по id и удаляет его
@@ -120,11 +117,11 @@ const cart = {
       if (item.id === id) {
         // прибавляем товар, если совпали id
         item.count++;
-        totalCount++;
         break;
       }
     }
     this.renderCart();
+    this.totalCounts();
   },
   //* добавлять товар в корзину с сайта
   addCartGoods(id) {
@@ -133,6 +130,7 @@ const cart = {
     if (goodItem) {
       this.plusGood(id);
     } else {
+      this.totalCounts();
       // получаем с сервера с помощью getGoods
       getGoods()
         //todo ищем в массиве данных с сервера товар(элемент)
@@ -147,35 +145,37 @@ const cart = {
             price,
             count: 1,
           });
+          this.totalCounts();
         });
     }
+  },
 
-    // Общее количество товаров в корзине
-    totalCount = this.cartGoods.reduce((sum, item) => {
-      if (id === item.id) {
-        return sum * item.count;
-      } else {
-        return sum + item.count;
-      }
-    }, 1);
-    // выводим общее количество товаров на кнопке с корзиной при закрытом модальном окне
-    cartCount.textContent = totalCount;
+  //* Общее количество товаров в корзине
+  totalCounts() {
+    let totalGoods = this.cartGoods.reduce((sum, item) => {
+      return sum + item.count;
+    }, 0);
+    if (totalGoods !== 0) {
+      cartCount.textContent = totalGoods;
+    } else {
+      cartCount.textContent = ``;
+    }
   },
 
   //* метод удаления всех товаров из корзины
   clearCartGoods() {
     this.cartGoods = this.cartGoods.filter((item) => item.id === -1);
     this.renderCart();
-    cartCount.textContent = "";
+    this.totalCounts();
   },
 };
+
+cart.totalCounts();
 
 //todo очищаем корзину по кнопке
 clearCart.addEventListener("click", () => {
   cart.clearCartGoods();
-}); //! кнопка не кликабельна
-
-// clearCart.addEventListener('click', console.log(1));
+});
 
 //* добавляем товары в корзину по кнопке с ценой на сайте
 document.body.addEventListener("click", (event) => {
@@ -195,15 +195,17 @@ cartTableGoods.addEventListener("click", (event) => {
     //todo Удаляем товар полностью из корзины
     if (target.classList.contains("cart-btn-delete")) {
       cart.deleteGood(id);
+      cart.totalCounts();
     }
     //todo уменьшаем кол-во товаров на 1
     if (target.classList.contains("cart-btn-minus")) {
       cart.minusGood(id);
-      console.log("1");
+      cart.totalCounts();
     }
     //todo увеличиваем кол-во товаров на 1
     if (target.classList.contains("cart-btn-plus")) {
       cart.plusGood(id);
+      cart.totalCounts();
     }
   }
 });
