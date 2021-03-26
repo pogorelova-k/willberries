@@ -436,6 +436,22 @@ button {
     margin-bottom: 30px;
 }
 
+.modal-input:invalid {
+    border: 2px solid  rgb(183, 196, 233) ;
+}
+
+.modal-input:invalid:required {
+    background: #fafafa;
+}
+
+.modal-input:valid {
+    border: 2px solid rgb(130, 156, 229);
+}
+
+.modal-input:active,.modal-input:visited,.modal-input:focus {
+    outline: none;
+}
+
 .cart-table {
     border-collapse: collapse;
     min-width: 540px;

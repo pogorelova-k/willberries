@@ -1,3 +1,5 @@
+'use strict';
+
 const mySwiper = new Swiper(".swiper-container", {
   loop: true,
 
@@ -363,4 +365,56 @@ moreAccessories.addEventListener("click", (event) => {
 moreClothing.addEventListener("click", (event) => {
   filterCards("category", "Clothing");
   scroll(event);
+});
+
+//! работа с сервером
+const modalForm = document.querySelector('.modal-form');
+
+
+
+// dataUser - то, что будет принимать сервер
+//  fetch('', {}) -> {}- настройки сервера
+const postData = dataUser => fetch('server.php', {
+  method: 'POST',
+  body: dataUser,
+});
+
+//* клик по кнопке checkout 
+modalForm.addEventListener('submit', event => {
+  //todo по кнопке checkout отменяем перезагрузку страницы
+  event.preventDefault();
+
+  console.log(JSON.stringify(cart.cartGoods));
+  let GoodsInCarts = JSON.stringify(cart.cartGoods);
+
+
+  //todo formData формирует спец объект понятный для сервера. указываем для него из какой формы взять эти данные
+  // FormData - готовый класс js 
+  const formData = new FormData(modalForm);
+  //todo отправляем товары из корзины на сервер
+  // JSON.sttingify(cart.cartGoods) : JSON - объект, с методом stringify. даные переделываем в строку
+  formData.append('cart', JSON.stringify(cart.cartGoods));
+
+  postData(formData)
+    //todo оповещаем пользователя о заказе
+    // положительный ответ сервера
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(response.status)
+      }
+      alert('Ваш заказ успешно отправлен, с вами свяжутся в ближайшее время');
+    })
+    // отрицательный ответ сервера
+    .catch(err => {
+      alert('К сожалению произошла ошибка, повторите попытку позже');
+    })
+    // ответ при любом ответе от сервера
+    .finally(() => {
+      closeModal();
+      //todo очищение формы
+      modalForm.reset();
+      //todo очищение корзины
+      cart.cartGoods.length = 0;
+      cart.totalCounts();
+    }); 
 });
